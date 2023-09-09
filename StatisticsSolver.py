@@ -5,6 +5,8 @@ Created on Sat Sep  9 10:11:15 2023
 @author: Dongli
 """
 
+import math
+
 class StatisticsSolver:
     def max_decimal_places(self, nums):
         max_places = 0
@@ -64,9 +66,25 @@ class StatisticsSolver:
         decimal_places = self.max_decimal_places(data)
         variance = round(variance, decimal_places+1)
         return variance
+    
+    def standard_deviation_p(self, data):
+        mean = self.mean(data)
+        var_list = [(x-mean)*(x-mean) for x in data]
+        variance = sum(var_list)/len(data)
+        sd = math.sqrt(variance)
+        decimal_places = self.max_decimal_places(data)
+        sd = round(sd, decimal_places+1)
+        return sd
 
-    def standard_deviation(self, data):
-        pass
+    def standard_deviation_s(self, data):
+        mean = self.mean(data)
+        var_list = [(x-mean)*(x-mean) for x in data]
+        variance = sum(var_list)/(len(data)-1)
+        sd = math.sqrt(variance)
+        decimal_places = self.max_decimal_places(data)
+        sd = round(sd, decimal_places+1)
+        return sd
+
 
 
 # Example Usage:
@@ -74,16 +92,18 @@ solver = StatisticsSolver()
 
 data = [1, 2, 3, 4, 8, 8, 7, 6, 7, 9, 10]
 
-mean_value = solver.mean(data)
+mean_value = solver.mean(data) 
 median_value = solver.median(data)
 mode_value = solver.mode(data)
 variance_value_population = solver.variance_p(data)
 variance_value_sample = solver.variance_s(data)
-std_deviation_value = solver.standard_deviation(data)
+sd_value_population = solver.standard_deviation_p(data)
+sd_value_sample = solver.standard_deviation_s(data)
 
 print(f"Mean: {mean_value}")
 print(f"Median: {median_value}")
 print(f"Mode: {mode_value}")
-print(f"Variance: {variance_value_population}")
-print(f"Variance: {variance_value_sample}")
-print(f"Standard Deviation: {std_deviation_value}")
+print(f"Variance p: {variance_value_population}")
+print(f"Variance s: {variance_value_sample}")
+print(f"Standard deviation population: {sd_value_population}")
+print(f"Standard deviation sample: {sd_value_sample}")
