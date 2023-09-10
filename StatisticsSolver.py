@@ -84,13 +84,28 @@ class StatisticsSolver:
         decimal_places = self.max_decimal_places(data)
         sd = round(sd, decimal_places+1)
         return sd
+    
+    def range(self, data):
+        return max(data) - min(data)
+    
+    def midrange(self, data):
+        mr = (max(data) + min(data))/2
+        decimal_places = self.max_decimal_places(data)
+        mr = round(mr, decimal_places+1)
+        return mr
 
-
+    def weighted_mean(self, data, weights):
+        weighted_values = [(data[i] * weights[i]) for i in range(len(data)-1)]
+        weighted_mean = sum(weighted_values)/sum(weights)
+        decimal_places = self.max_decimal_places(data)
+        weighted_mean = round(weighted_mean, decimal_places+1)
+        return weighted_mean
 
 # Example Usage:
 solver = StatisticsSolver()
 
 data = [1, 2, 3, 4, 8, 8, 7, 6, 7, 9, 10]
+weights = [2, 4, 5, 1, 9, 3, 4, 6, 8, 3, 8]
 
 mean_value = solver.mean(data) 
 median_value = solver.median(data)
@@ -99,6 +114,10 @@ variance_value_population = solver.variance_p(data)
 variance_value_sample = solver.variance_s(data)
 sd_value_population = solver.standard_deviation_p(data)
 sd_value_sample = solver.standard_deviation_s(data)
+data_range = solver.range(data)
+midrange = solver.midrange(data)
+weighted_mean = solver.weighted_mean(data, weights)
+
 
 print(f"Mean: {mean_value}")
 print(f"Median: {median_value}")
@@ -107,3 +126,6 @@ print(f"Variance p: {variance_value_population}")
 print(f"Variance s: {variance_value_sample}")
 print(f"Standard deviation population: {sd_value_population}")
 print(f"Standard deviation sample: {sd_value_sample}")
+print(f"Range: {data_range}")
+print(f"Midrange: {midrange}")
+print(f"Weighted mean: {weighted_mean}")
