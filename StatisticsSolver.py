@@ -117,16 +117,27 @@ class StatisticsSolver:
         z = round((x - mean)/sd, 2)
         return z
     
-    def percentile(self, data, x):
+    def percentile_get_p(self, data, x):
         data.sort()
-        
-
+        i = data.index(x)
+        p = (i + 0.5) * 100 / len(data)
+        p = round(p, 2)
+        return p
+    
+    def percentile_get_x(self, data, p):
+        data.sort()
+        i = (p * len(data) / 100) - 0.5
+        i = round(i)
+        return data[i]
+    
+    
 # Example Usage:
 solver = StatisticsSolver()
 
 data = [1, 2, 3, 4, 8, 8, 7, 6, 7, 9, 10]
 weights = [2, 4, 5, 1, 9, 3, 4, 6, 8, 3, 8]
 x = 8
+p = 40
 
 mean_value = solver.mean(data) 
 median_value = solver.median(data)
@@ -140,6 +151,8 @@ midrange = solver.midrange(data)
 weighted_mean = solver.weighted_mean(data, weights)
 z_population = solver.z_score_p(data, x)
 z_sample = solver.z_score_s(data, x)
+get_percentile = solver.percentile_get_p(data, x)
+get_value_from_p = solver.percentile_get_x(data, p)
 
 
 print(f"Mean: {mean_value}")
@@ -154,6 +167,7 @@ print(f"Midrange: {midrange}")
 print(f"Weighted mean: {weighted_mean}")
 print(f"z score population: {z_population}")
 print(f"z score sample: {z_sample}")
-
+print(f"Percentile of {x}: {get_percentile}")
+print(f"value when p = {p}: {get_value_from_p}")
 
 
