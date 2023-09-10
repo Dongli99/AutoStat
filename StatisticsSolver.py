@@ -153,6 +153,12 @@ class StatisticsSolver:
             }
         return tiles
     
+    def a2b_percentile(self, data, a, b):
+        a, b = (a, b) if a <= b else (b, a)
+        pa = self.percentile_get_x(data, a)
+        pb = self.percentile_get_x(data, b)
+        return pb - pa
+    
     def print_dict(self, d):
         for key, value in d.items():
             print(f'  {key} - {value}')
@@ -169,6 +175,8 @@ weights = [2, 4, 5, 1, 9, 3, 4, 6, 8, 3, 2, 4, 5, 1, 9, 3, 4, 6,
            8, 3, 2, 4, 5, 1, 9, 3, 4, 6, 8, 3]
 x = 30
 p = 50
+a = 10
+b = 20
 
 mean_value = solver.mean(data) 
 median_value = solver.median(data)
@@ -185,6 +193,7 @@ z_sample = solver.z_score_s(data, x)
 get_percentile = solver.percentile_get_p(data, x)
 get_value_from_p = solver.percentile_get_x(data, p)
 quartiles = solver.quartile_and_more(data)
+a2b_percentile = solver.a2b_percentile(data, a, b)
 
 
 print(f"Mean: {mean_value}")
@@ -203,6 +212,7 @@ print(f"Percentile of {x}: {get_percentile}")
 print(f"value when p = {p}: {get_value_from_p}")
 print("Quartiles:")
 solver.print_dict(quartiles)
+print(f"P{a} to P{b} percentile: {a2b_percentile}")
 
 
 
