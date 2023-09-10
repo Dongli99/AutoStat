@@ -100,12 +100,33 @@ class StatisticsSolver:
         decimal_places = self.max_decimal_places(data)
         weighted_mean = round(weighted_mean, decimal_places+1)
         return weighted_mean
+    
+    def z_score_p(self, data, x):
+        mean = sum(data) / len(data)
+        var_list = [(x-mean)*(x-mean) for x in data]
+        variance = sum(var_list)/len(data)
+        sd = math.sqrt(variance)
+        z = round((x - mean)/sd, 2)
+        return z
+    
+    def z_score_s(self, data, x):
+        mean = sum(data) / len(data)
+        var_list = [(x-mean)*(x-mean) for x in data]
+        variance = sum(var_list)/(len(data)-1)
+        sd = math.sqrt(variance)
+        z = round((x - mean)/sd, 2)
+        return z
+    
+    def percentile(self, data, x):
+        data.sort()
+        
 
 # Example Usage:
 solver = StatisticsSolver()
 
 data = [1, 2, 3, 4, 8, 8, 7, 6, 7, 9, 10]
 weights = [2, 4, 5, 1, 9, 3, 4, 6, 8, 3, 8]
+x = 8
 
 mean_value = solver.mean(data) 
 median_value = solver.median(data)
@@ -117,6 +138,8 @@ sd_value_sample = solver.standard_deviation_s(data)
 data_range = solver.range(data)
 midrange = solver.midrange(data)
 weighted_mean = solver.weighted_mean(data, weights)
+z_population = solver.z_score_p(data, x)
+z_sample = solver.z_score_s(data, x)
 
 
 print(f"Mean: {mean_value}")
@@ -129,3 +152,8 @@ print(f"Standard deviation sample: {sd_value_sample}")
 print(f"Range: {data_range}")
 print(f"Midrange: {midrange}")
 print(f"Weighted mean: {weighted_mean}")
+print(f"z score population: {z_population}")
+print(f"z score sample: {z_sample}")
+
+
+
