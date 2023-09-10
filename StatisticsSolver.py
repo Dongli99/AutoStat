@@ -135,18 +135,40 @@ class StatisticsSolver:
             x = data[math.ceil(position) - 1]
         return x
 
+    def quartile_and_more(self, data):
+        # this function also follows type 5
+        q1 = self.percentile_get_x(data, 25)
+        q2 = self.percentile_get_x(data, 50)
+        q3 = self.percentile_get_x(data, 75)
+        iqr = q3 - q1
+        semi_iqr = iqr / 2
+        mid_quartile = (q1 + q3) / 2
+        tiles = {
+            'Q1': q1, 
+            'Q2': q2, 
+            'Q3': q3, 
+            'IQR': iqr,
+            'Semi-interquartile range': semi_iqr,
+            'Midquartile': mid_quartile
+            }
+        return tiles
     
+    def print_dict(self, d):
+        for key, value in d.items():
+            print(f'  {key} - {value}')
+
     
 # Example Usage:
 solver = StatisticsSolver()
 
-data = [5.5, 5.7, 5.8, 5.9, 6.1, 6.1, 6.4, 6.4, 6.5, 6.6,
-+           6.7, 6.7, 6.7, 6.9, 7.0, 7.0, 7.0, 7.1, 7.2, 7.2,
-+           7.4, 7.5, 7.7, 7.7, 7.8, 8.0, 8.1, 8.1, 8.3, 8.7]
+data = [30, 35, 43, 44, 47, 48, 54, 55, 56, 57,
++           59, 62, 63, 65, 66, 68, 69, 69, 71, 72,
++           72, 73, 74, 76, 77, 77, 78, 79, 80, 81,
++           81, 82, 83, 85, 89, 92, 93, 94, 97, 98]
 weights = [2, 4, 5, 1, 9, 3, 4, 6, 8, 3, 2, 4, 5, 1, 9, 3, 4, 6, 
            8, 3, 2, 4, 5, 1, 9, 3, 4, 6, 8, 3]
-x = 7.5
-p = 16
+x = 30
+p = 50
 
 mean_value = solver.mean(data) 
 median_value = solver.median(data)
@@ -157,11 +179,12 @@ sd_value_population = solver.standard_deviation_p(data)
 sd_value_sample = solver.standard_deviation_s(data)
 data_range = solver.range(data)
 midrange = solver.midrange(data)
-weighted_mean = solver.weighted_mean(data, weights)
+# weighted_mean = solver.weighted_mean(data, weights)
 z_population = solver.z_score_p(data, x)
 z_sample = solver.z_score_s(data, x)
 get_percentile = solver.percentile_get_p(data, x)
 get_value_from_p = solver.percentile_get_x(data, p)
+quartiles = solver.quartile_and_more(data)
 
 
 print(f"Mean: {mean_value}")
@@ -173,10 +196,13 @@ print(f"Standard deviation population: {sd_value_population}")
 print(f"Standard deviation sample: {sd_value_sample}")
 print(f"Range: {data_range}")
 print(f"Midrange: {midrange}")
-print(f"Weighted mean: {weighted_mean}")
+# print(f"Weighted mean: {weighted_mean}")
 print(f"z score population of {x}: {z_population}")
 print(f"z score sample of {x}: {z_sample}")
 print(f"Percentile of {x}: {get_percentile}")
 print(f"value when p = {p}: {get_value_from_p}")
+print("Quartiles:")
+solver.print_dict(quartiles)
+
 
 
