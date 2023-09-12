@@ -9,12 +9,17 @@ import math
 
 class StatisticsSolver:
     def max_decimal_places(self, nums):
+        
         max_places = 0
         for num in nums:
             if '.' in str(num):
                 decimal_places = len(str(num).split('.')[1])
                 max_places = max(max_places, decimal_places)
         return max_places
+    
+    def print_dict(self, d):
+        for key, value in d.items():
+            print(f'  {key} - {value}')
     
     def mean(self, data):
         mean = sum(data) / len(data)
@@ -143,40 +148,50 @@ class StatisticsSolver:
         iqr = q3 - q1
         semi_iqr = iqr / 2
         mid_quartile = (q1 + q3) / 2
+        mild_boundary = [q1-(1.5*iqr), q3+(1.5*iqr)]
+        extreme_boundary = [q1-(3*iqr), q3+(3*iqr)]
+        outlier_boundary = f'-ex-<<- ({extreme_boundary[0]}) -<-md-<- ({mild_boundary[0]}) --nm-- ({mild_boundary[1]}) ->-md->- ({extreme_boundary[1]}) ->>-ex-'
         tiles = {
             'Q1': q1, 
             'Q2': q2, 
             'Q3': q3, 
             'IQR': iqr,
             'Semi-interquartile range': semi_iqr,
-            'Midquartile': mid_quartile
+            'Midquartile': mid_quartile,
+            'outlier': outlier_boundary
             }
         return tiles
     
-    def a2b_percentile(self, data, a, b):
+    def a2b_percentile_range(self, data, a, b):
         a, b = (a, b) if a <= b else (b, a)
         pa = self.percentile_get_x(data, a)
         pb = self.percentile_get_x(data, b)
         return pb - pa
     
-    def print_dict(self, d):
-        for key, value in d.items():
-            print(f'  {key} - {value}')
-
-    
+    def outlier_check(self, data, x):
+        q1 = self.percentile_get_x(data, 25)
+        q3 = self.percentile_get_x(data, 75)
+        iqr = q3 - q1
+        status = ''
+        if x > (q3 + (3 * iqr)) or x < (q1 - (3 * iqr)):
+            status = "an extreme outlier"
+        elif x > (q3 + (1.5 * iqr)) or x < (q1 - (1.5 * iqr)):
+            status = "a mild outlier"
+        else:
+            status = "not an outlier"
+        return status
+            
+   
 # Example Usage:
 solver = StatisticsSolver()
 
-data = [30, 35, 43, 44, 47, 48, 54, 55, 56, 57,
-+           59, 62, 63, 65, 66, 68, 69, 69, 71, 72,
-+           72, 73, 74, 76, 77, 77, 78, 79, 80, 81,
-+           81, 82, 83, 85, 89, 92, 93, 94, 97, 98]
+data = [94, 86, 82, 81, 87, 77, 73, 62, 60, 57, 2]
 weights = [2, 4, 5, 1, 9, 3, 4, 6, 8, 3, 2, 4, 5, 1, 9, 3, 4, 6, 
            8, 3, 2, 4, 5, 1, 9, 3, 4, 6, 8, 3]
-x = 30
-p = 50
+x = 2
+p = 90
 a = 10
-b = 20
+b = 90
 
 mean_value = solver.mean(data) 
 median_value = solver.median(data)
@@ -193,7 +208,8 @@ z_sample = solver.z_score_s(data, x)
 get_percentile = solver.percentile_get_p(data, x)
 get_value_from_p = solver.percentile_get_x(data, p)
 quartiles = solver.quartile_and_more(data)
-a2b_percentile = solver.a2b_percentile(data, a, b)
+a2b_percentile_range = solver.a2b_percentile_range(data, a, b)
+outlier_check = solver.outlier_check(data, x)
 
 
 print(f"Mean: {mean_value}")
@@ -212,7 +228,8 @@ print(f"Percentile of {x}: {get_percentile}")
 print(f"value when p = {p}: {get_value_from_p}")
 print("Quartiles:")
 solver.print_dict(quartiles)
-print(f"P{a} to P{b} percentile: {a2b_percentile}")
+print(f"P{a} to P{b} percentile range: {a2b_percentile_range}")
+print(f'{x} is {outlier_check}')
 
 
 
