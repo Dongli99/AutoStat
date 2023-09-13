@@ -107,6 +107,7 @@ class StatisticsSolver:
         return weighted_mean
     
     def z_score_p(self, data, x):
+        # z actually is how many sd away from the mean 
         mean = sum(data) / len(data)
         var_list = [(x-mean)*(x-mean) for x in data]
         variance = sum(var_list)/len(data)
@@ -123,6 +124,7 @@ class StatisticsSolver:
         return z
     
     def percentile_get_p(self, data, x):
+        # percentile is not related to value, only about order/rank
         data.sort()
         i = data.index(x)
         p = (i + 0.5) * 100 / len(data)
@@ -130,13 +132,16 @@ class StatisticsSolver:
         return p
     
     def percentile_get_x(self, data, k):
+        # given Pk, get x
         # can be performed in R with: quantile(data, probs = 0.4, type = 5)
         data.sort()
         position = k * len(data) / 100
         if position % 1 == 0:
+            # plus 0.5 if whole number, equivalent to ...
             position = round(position)
             x = (data[position - 1] + data[position]) / 2
         else:
+            # round to next higher whole number
             x = data[math.ceil(position) - 1]
         return x
 
@@ -174,13 +179,13 @@ class StatisticsSolver:
         iqr = q3 - q1
         status = ''
         if x > (q3 + (3 * iqr)) or x < (q1 - (3 * iqr)):
-            status = "an extreme outlier"
+            status = "a severe outlier"
         elif x > (q3 + (1.5 * iqr)) or x < (q1 - (1.5 * iqr)):
             status = "a mild outlier"
         else:
             status = "not an outlier"
         return status
-            
+    
    
 # Example Usage:
 solver = StatisticsSolver()
@@ -206,6 +211,7 @@ midrange = solver.midrange(data)
 z_population = solver.z_score_p(data, x)
 z_sample = solver.z_score_s(data, x)
 get_percentile = solver.percentile_get_p(data, x)
+get_percentile
 get_value_from_p = solver.percentile_get_x(data, p)
 quartiles = solver.quartile_and_more(data)
 a2b_percentile_range = solver.a2b_percentile_range(data, a, b)
