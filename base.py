@@ -1,5 +1,6 @@
  # This file contains basic statistics functions
 import math
+from utils import max_decimal_places
 
 class StatisticsSolver:
     
@@ -8,14 +9,14 @@ class StatisticsSolver:
         
     def mean(self):
         mean = sum(self.data) / len(self.data)
-        decimal_places = self.max_decimal_places(self.data)
+        decimal_places = max_decimal_places(self.data)
         mean = round(mean, decimal_places + 1)
         return mean
 
     def median(self):
         self.data.sort()
         n = len(self.data)
-        decimal_places = self.max_decimal_places(self.data)
+        decimal_places = max_decimal_places(self.data)
         if n%2 == 0:
             median = (self.data[n//2-1] + self.data[n//2])/2
             median = round(median, decimal_places + 1)
@@ -41,10 +42,10 @@ class StatisticsSolver:
         else:
             return mode_values
     
-    def standard_deviation(self, is_population):
+    def standard_deviation(self, is_population=False):
         var_list = [(x-self.mean)**2 for x in self.data]
-        variance = sum(var_list)/len(data)
+        variance = sum(var_list) / len(self.data) if is_population else sum(var_list)/(len(self.data)-1)
         sd = math.sqrt(variance)
-        decimal_places = self.max_decimal_places(data)
-        sd = round(sd, decimal_places+1)
+        decimal_places = max_decimal_places(self.data)
+        sd = round(sd, decimal_places + 1)
         return sd
