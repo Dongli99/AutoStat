@@ -30,31 +30,26 @@ class DescriptiveStat(StatisticsSolver):
     
     def percentile_get_p(self, x):
         # percentile is not related to value, only about order/rank
-        data.sort()
-        i = data.index(x)
-        p = (i + 0.5) * 100 / len(data)
-        p = round(p)
-        return p
+        return round((self.data.index(x) + 0.5) * 100 / len(self.data))
     
-    def percentile_get_x(self, data, k):
+    def percentile_get_x(self, k):
         # given Pk, get x
         # can be performed in R with: quantile(data, probs = 0.4, type = 5)
-        data.sort()
-        position = k * len(data) / 100
+        position = k * len(self.data) / 100
         if position % 1 == 0:
-            # plus 0.5 if whole number, equivalent to ...
+            # plus 0.5 if whole number, equivalent.
             position = round(position)
-            x = (data[position - 1] + data[position]) / 2
+            x = (self.data[position - 1] + self.data[position]) / 2
         else:
             # round to next higher whole number
-            x = data[math.ceil(position) - 1]
+            x = self.data[math.ceil(position) - 1]
         return x
     
-    def quartile_and_more(self, data):
+    def quartile_and_more(self):
         # this function also follows type 5
-        q1 = self.percentile_get_x(data, 25)
-        q2 = self.percentile_get_x(data, 50)
-        q3 = self.percentile_get_x(data, 75)
+        q1 = self.percentile_get_x(self.data, 25)
+        q2 = self.percentile_get_x(self.data, 50)
+        q3 = self.percentile_get_x(self.data, 75)
         iqr = q3 - q1
         semi_iqr = iqr / 2
         mid_quartile = (q1 + q3) / 2
@@ -72,15 +67,15 @@ class DescriptiveStat(StatisticsSolver):
             }
         return tiles
     
-    def a2b_percentile_range(self, data, a, b):
+    def a2b_percentile_range(self, a, b):
         a, b = (a, b) if a <= b else (b, a)
-        pa = self.percentile_get_x(data, a)
-        pb = self.percentile_get_x(data, b)
+        pa = self.percentile_get_x(a)
+        pb = self.percentile_get_x(b)
         return pb - pa
     
-    def outlier_check(self, data, x):
-        q1 = self.percentile_get_x(data, 25)
-        q3 = self.percentile_get_x(data, 75)
+    def outlier_check(self, x):
+        q1 = self.percentile_get_x(25)
+        q3 = self.percentile_get_x(75)
         iqr = q3 - q1
         status = ''
         if x > (q3 + (3 * iqr)) or x < (q1 - (3 * iqr)):
