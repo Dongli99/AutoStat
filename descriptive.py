@@ -5,33 +5,33 @@ Created on Sat Sep  9 10:11:15 2023
 @author: Dongli
 """
 from AutoStat import StatisticsSolver
+from utils import max_decimal_places
 import math
 
 class DescriptiveStat(StatisticsSolver):
-      
-    def range(self, data):
-        return max(data) - min(data)
     
-    def midrange(self, data):
-        mr = (max(data) + min(data))/2
-        decimal_places = self.max_decimal_places(data)
+    def __init__
+    
+      
+    def range(self):
+        return max(self.data) - min(self.data)
+    
+    def midrange(self):
+        mr = (max(self.data) + min(self.data))/2
+        decimal_places = max_decimal_places(self.data)
         mr = round(mr, decimal_places+1)
         return mr
     
-    def weighted_mean(self, data, weights):
-        weighted_values = [(data[i] * weights[i]) for i in range(len(data)-1)]
+    def weighted_mean(self, weights):
+        weighted_values = [(self.data[i] * weights[i]) for i in range(len(self.data)-1)]
         weighted_mean = sum(weighted_values)/sum(weights)
-        decimal_places = self.max_decimal_places(data)
-        weighted_mean = round(weighted_mean, decimal_places+1)
+        decimal_places = max_decimal_places(self.data)
+        weighted_mean = round(weighted_mean, decimal_places + 1)
         return weighted_mean
     
-    def z_score_p(self, data, x):
+    def z_score_p(self, x):
         # z actually is how many sd away from the mean 
-        mean = sum(data) / len(data)
-        var_list = [(x-mean)*(x-mean) for x in data]
-        variance = sum(var_list)/len(data)
-        sd = math.sqrt(variance)
-        z = round((x - mean)/sd, 2)
+        z = round((x - self.mean)/self.sd, 2)
         return z
     
     def z_score_s(self, data, x):
