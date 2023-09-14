@@ -23,20 +23,12 @@ class DescriptiveStat(StatisticsSolver):
         weighted_mean = round(weighted_mean, self.decimal_places + 1)
         return weighted_mean
     
-    def z_score_p(self, x, is_population):
+    def z_score(self, x):
         # z actually is how many sd away from the mean 
-        z = round((x - self.mean())/self.sd(True), 2)
+        z = round((x - self.mean())/self.sd(), 2)
         return z
     
-    def z_score_s(self, data, x):
-        mean = sum(data) / len(data)
-        var_list = [(x-mean)*(x-mean) for x in data]
-        variance = sum(var_list)/(len(data)-1)
-        sd = math.sqrt(variance)
-        z = round((x - mean)/sd, 2)
-        return z
-    
-    def percentile_get_p(self, data, x):
+    def percentile_get_p(self, x):
         # percentile is not related to value, only about order/rank
         data.sort()
         i = data.index(x)

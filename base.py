@@ -4,8 +4,9 @@ from utils import max_decimal_places
 
 class StatisticsSolver:
     
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, data, is_population = False):
+        self.data = sorted(data)
+        self.is_population = is_population
         self.decimal_places = max_decimal_places(self.data)
         
     def mean(self):
@@ -41,13 +42,13 @@ class StatisticsSolver:
         else:
             return mode_values
     
-    def variance(self, is_population=False):
+    def variance(self):
         var_list = [(x-self.mean)**2 for x in self.data]
-        variance = sum(var_list) / len(self.data) if is_population else sum(var_list)/(len(self.data)-1)
+        variance = sum(var_list) / len(self.data) if self.is_population else sum(var_list)/(len(self.data)-1)
         variance = round(variance, self.decimal_places + 1)
         return variance
     
-    def standard_deviation(self, is_population=False):
+    def standard_deviation(self):
         sd = math.sqrt(self.variance)
         sd = round(sd, self.decimal_places + 1)
         return sd
