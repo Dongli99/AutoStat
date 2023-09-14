@@ -93,6 +93,8 @@ class DescriptiveBivariate:
     def __init__(self, x_list, y_list):
         self.x_list = x_list
         self.y_list = y_list
+        self.x_mean = StatisticsSolver(self.x_list).mean(False)
+        self.y_mean = StatisticsSolver(self.y_list).mean(False)
         
     def linear_regression(self):
         # will create liniea regression line
@@ -104,12 +106,11 @@ class DescriptiveBivariate:
         n = len(self.x_list)
         m = (n * sum_xy - (sum_x * sum_y)) / (n * sum_x_sq - (sum_x * sum_x))
         # get b
-        mean_x = StatisticsSolver(self.x_list).mean(False)
-        mean_y = StatisticsSolver(self.y_list).mean(False)
-        b = mean_y - (m * mean_x)
+        b = self.y_mean - (m * self.x_mean)
         # return result
         m = round(m, 3)
         b = round(b, 3)
         line = {'m: ': m, 'b: ': b, 'formula: ': f'y^ = {m}x + {b}'}
         return line
-        
+    
+    
