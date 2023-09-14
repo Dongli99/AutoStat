@@ -42,6 +42,13 @@ class StatisticsSolver:
         else:
             return mode_values
     
+    def variance(self, is_population=False):
+        var_list = [(x-self.mean)**2 for x in self.data]
+        variance = sum(var_list) / len(self.data) if is_population else sum(var_list)/(len(self.data)-1)
+        decimal_places = max_decimal_places(self.data)
+        variance = round(variance, decimal_places+1)
+        return variance
+    
     def standard_deviation(self, is_population=False):
         var_list = [(x-self.mean)**2 for x in self.data]
         variance = sum(var_list) / len(self.data) if is_population else sum(var_list)/(len(self.data)-1)
