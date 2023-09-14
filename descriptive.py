@@ -7,36 +7,7 @@ Created on Sat Sep  9 10:11:15 2023
 
 import math
 
-class StatisticsSolver:
-    def max_decimal_places(self, nums):
-        
-        max_places = 0
-        for num in nums:
-            if '.' in str(num):
-                decimal_places = len(str(num).split('.')[1])
-                max_places = max(max_places, decimal_places)
-        return max_places
-    
-    def print_dict(self, d):
-        for key, value in d.items():
-            print(f'  {key} - {value}')
-    
-    def mean(self, data):
-        mean = sum(data) / len(data)
-        decimal_places = self.max_decimal_places(data)
-        mean = round(mean, decimal_places + 1)
-        return mean
-
-    def median(self, data):
-        data.sort()
-        n = len(data)
-        decimal_places = self.max_decimal_places(data)
-        if n%2 == 0:
-            median = (data[n//2-1] + data[n//2])/2
-            median = round(median, decimal_places + 1)
-        else:
-            median = data[(n-1)//2]
-        return median
+class descriptive:
 
     def mode(self, data):
         frequency_dict = {}
