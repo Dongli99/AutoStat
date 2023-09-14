@@ -4,11 +4,11 @@ Created on Sat Sep  9 10:11:15 2023
 
 @author: Dongli
 """
-from AutoStat import StatisticsSolver
+from base import StatisticsSolver
 import math
 
 class DescriptiveStat(StatisticsSolver): 
-      
+
     def range(self):
         return max(self.data) - min(self.data)
     
@@ -25,7 +25,7 @@ class DescriptiveStat(StatisticsSolver):
     
     def z_score(self, x):
         # z actually is how many sd away from the mean 
-        z = round((x - self.mean())/self.sd(), 2)
+        z = round((x - self.mean())/self.standard_deviation(), 2)
         return z
     
     def percentile_get_p(self, x):
@@ -47,9 +47,9 @@ class DescriptiveStat(StatisticsSolver):
     
     def quartile_and_more(self):
         # this function also follows type 5
-        q1 = self.percentile_get_x(self.data, 25)
-        q2 = self.percentile_get_x(self.data, 50)
-        q3 = self.percentile_get_x(self.data, 75)
+        q1 = self.percentile_get_x(25)
+        q2 = self.percentile_get_x(50)
+        q3 = self.percentile_get_x(75)
         iqr = q3 - q1
         semi_iqr = iqr / 2
         mid_quartile = (q1 + q3) / 2

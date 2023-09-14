@@ -1,4 +1,4 @@
-def max_decimal_places(self, nums):
+def max_decimal_places(nums):
     max_places = 0
     for num in nums:
         if '.' in str(num):
@@ -6,6 +6,6 @@ def max_decimal_places(self, nums):
             max_places = max(max_places, decimal_places)
     return max_places
  
-def print_dict(self, d):
+def print_dict(d):
     for key, value in d.items():
         print(f'  {key} - {value}')
