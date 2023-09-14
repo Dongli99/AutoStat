@@ -12,21 +12,22 @@ class DescriptiveStat(StatisticsSolver):
     def range(self):
         return max(self.data) - min(self.data)
     
-    def midrange(self):
+    def midrange(self, is_rounded = True):
         mr = (max(self.data) + min(self.data))/2
-        mr = round(mr, self.decimal_places+1)
+        if is_rounded:
+            mr = round(mr, self.decimal_places+1)
         return mr
     
-    def weighted_mean(self, weights):
+    def weighted_mean(self, weights, is_rounded = True):
         weighted_values = [(self.data[i] * weights[i]) for i in range(len(self.data)-1)]
         weighted_mean = sum(weighted_values)/sum(weights)
-        weighted_mean = round(weighted_mean, self.decimal_places + 1)
+        if is_rounded:
+            weighted_mean = round(weighted_mean, self.decimal_places + 1)
         return weighted_mean
     
     def z_score(self, x):
         # z actually is how many sd away from the mean 
-        z = round((x - self.mean())/self.standard_deviation(), 2)
-        return z
+        return round((x - self.mean(False))/self.standard_deviation(False), 2)
     
     def percentile_get_p(self, x):
         # percentile is not related to value, only about order/rank
@@ -103,8 +104,8 @@ class DescriptiveBivariate:
         n = len(self.x_list)
         m = (n * sum_xy - (sum_x * sum_y)) / (n * sum_x_sq - (sum_x * sum_x))
         # get b
-        mean_x = sum_x / n
-        mean_y = sum_y / n
+        mean_x = StatisticsSolver(self.x_list).mean(False)
+        mean_y = StatisticsSolver(self.y_list).mean(False)
         b = mean_y - (m * mean_x)
         # return result
         m = round(m, 3)
