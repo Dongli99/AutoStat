@@ -101,12 +101,14 @@ class DescriptiveBivariate:
         sum_xy = sum(x * y for x, y in zip(self.x_list, self.y_list))
         sum_x_sq = sum(x * x for x in self.x_list)
         n = len(self.x_list)
-        m = round((n * sum_xy - (sum_x * sum_y)) / (n * sum_x_sq - (sum_x * sum_x)), 3)
+        m = (n * sum_xy - (sum_x * sum_y)) / (n * sum_x_sq - (sum_x * sum_x))
         # get b
-        mean_x = StatisticsSolver(self.x_list).mean()
-        mean_y = StatisticsSolver(self.y_list).mean()
-        b = round(mean_y - (m * mean_x), 3)
+        mean_x = sum_x / n
+        mean_y = sum_y / n
+        b = mean_y - (m * mean_x)
         # return result
+        m = round(m, 3)
+        b = round(b, 3)
         line = {'m: ': m, 'b: ': b, 'formula: ': f'y^ = {m}x + {b}'}
         return line
         

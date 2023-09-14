@@ -47,7 +47,10 @@ print_dict(quartiles)
 print(f"P{a} to P{b} percentile range: {a2b_percentile_range}")
 print(f'{x} is {outlier_check}')
 
-bi_v = DescriptiveBivariate([1,2,3,4], [2,4,4,6])
+x = [72,69,58,47,84,62,57,45]
+y = [62,42,19,26,51,15,30,15]
+
+bi_v = DescriptiveBivariate(x,y)
 regression_line = bi_v.linear_regression()
 print_dict(regression_line)
 
