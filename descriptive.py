@@ -87,5 +87,26 @@ class DescriptiveStat(StatisticsSolver):
         return status
     
    
-
-
+class DescriptiveBivariate:
+    
+    def __init__(self, x_list, y_list):
+        self.x_list = x_list
+        self.y_list = y_list
+        
+    def linear_regression(self):
+        # will create liniea regression line
+        # get m
+        sum_x = sum(self.x_list)
+        sum_y = sum(self.y_list)
+        sum_xy = sum(x * y for x, y in zip(self.x_list, self.y_list))
+        sum_x_sq = sum(x * x for x in self.x_list)
+        n = len(self.x_list)
+        m = round((n * sum_xy - (sum_x * sum_y)) / (n * sum_x_sq - (sum_x * sum_x)), 3)
+        # get b
+        mean_x = StatisticsSolver(self.x_list).mean()
+        mean_y = StatisticsSolver(self.y_list).mean()
+        b = round(mean_y - (m * mean_x), 3)
+        # return result
+        line = {'m: ': m, 'b: ': b, 'formula: ': f'y^ = {m}x + {b}'}
+        return line
+        
