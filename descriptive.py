@@ -116,15 +116,8 @@ class DescriptiveBivariate:
         line = {'m: ': m, 'b: ': b, 'formula: ': f'y^ = {m}x + {b}'}
         return line
     
-    '''
     def correlation_coefficient(self, is_rounded = True):
-        r = sum((x-self.mean_x) * (y-self.mean_y) for x, y in self.x_y_list) / (len(self.x_list) * self.sd_x * self.sd_y)
-        if is_rounded:
-            r = round(r, 3)
-        return r
-    '''
-
-    def correlation_coefficient(self, is_rounded = True):
+        # the closer the value to -1 or 1, the stronger the correlation. 0 - no correlation
         sum_x = sum(self.x_list)
         sum_y = sum(self.y_list)
         sum_xy = sum(x * y for x, y in zip(self.x_list, self.y_list))
@@ -138,3 +131,7 @@ class DescriptiveBivariate:
             r = round(r, 3)
         return r
     
+    def coefficient_of_determination(self, is_rounded):
+        # a better measure when we decide about the linearity of a relationship
+        # the proportion of variation in the y values that is explained by x
+        

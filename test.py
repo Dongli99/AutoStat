@@ -54,8 +54,6 @@ print(f'{x} is {outlier_check}')
 x = [1,2,3,4]
 y = [2,4,4,6]
 
-
-
 bi_v = DescriptiveBivariate(x,y)
 regression_line = bi_v.linear_regression()
 correlation_coeff = bi_v.correlation_coefficient()
