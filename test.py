@@ -57,8 +57,11 @@ y = [2,4,4,6]
 bi_v = DescriptiveBivariate(x,y)
 regression_line = bi_v.linear_regression()
 correlation_coeff = bi_v.correlation_coefficient()
+coefficient_of_determination = bi_v.coefficient_of_determination()
 
 print('regression line formula: ')
 print_dict(regression_line)
 print(f'correlation coeffient: {correlation_coeff}')
+print(f'coefficient_of_determination: {coefficient_of_determination}')
+
  

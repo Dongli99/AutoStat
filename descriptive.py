@@ -131,7 +131,11 @@ class DescriptiveBivariate:
             r = round(r, 3)
         return r
     
-    def coefficient_of_determination(self, is_rounded):
+    def coefficient_of_determination(self, is_rounded = True):
         # a better measure when we decide about the linearity of a relationship
         # the proportion of variation in the y values that is explained by x
-        
+        cd = self.correlation_coefficient(False)**2
+        if is_rounded:
+            cd = round(cd, 3)
+        return cd
+            
