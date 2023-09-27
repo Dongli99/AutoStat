@@ -21,6 +21,17 @@ class DescriptiveBinomialDis:
             p_x = round(p_x, 3)
         return p_x
     
+    def bino_prob_sum(self, bottom, top, is_rounded = True):
+        x = bottom
+        probs = 0
+        while x <= top:
+            self.x = x
+            probs += self.binomial_probability()
+            x += 1
+        if is_rounded:
+            probs = round(probs,3)
+        return probs
+    
     def bino_prob_mean(self, is_rounded = True):
         mean = 0
         for x in range(self.n+1):
@@ -29,3 +40,19 @@ class DescriptiveBinomialDis:
         if is_rounded:
             mean = round(mean, 3)
         return mean
+    
+    def bino_prob_variance(self, is_rounded = True):
+        v = 0
+        for x in range(self.n+1):
+            self.x = x
+            v += self.binomial_probability(False) * x**2
+        v = v - self.bino_prob_mean(False)**2        
+        if is_rounded:
+            v = round(v, 3)
+        return v
+    
+    def bino_prob_sd(self, is_rounded = True):
+        sd = math.sqrt(self.bino_prob_variance(False))
+        if is_rounded:
+            sd = round(sd, 3)
+        return sd
