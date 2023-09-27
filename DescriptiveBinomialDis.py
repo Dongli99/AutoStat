@@ -9,7 +9,7 @@ import math
 
 class DescriptiveBinomialDis:
     
-    def __init__(self, n, x, p):
+    def __init__(self, p, n, x=0):
         self.n = n
         self.x = x
         self.p = p
@@ -21,3 +21,11 @@ class DescriptiveBinomialDis:
             p_x = round(p_x, 3)
         return p_x
     
+    def bino_prob_mean(self, is_rounded = True):
+        mean = 0
+        for x in range(self.n+1):
+            self.x = x
+            mean += self.binomial_probability(False) * x
+        if is_rounded:
+            mean = round(mean, 3)
+        return mean

@@ -32,9 +32,13 @@ print_dict(regression_line)
 print(f'correlation coeffient: {correlation_coeff}')
 print(f'coefficient_of_determination: {coefficient_of_determination}')
 
-bino = DescriptiveBinomialDis(5, 3, 0.85)
+bino = DescriptiveBinomialDis(0.85, 5, 3)
 bi_pro = bino.binomial_probability()
 print(f'the binomial_probability is {bi_pro}')
+bi_mean = bino.bino_prob_mean()
+print(f'the probability mean is {bi_mean}')
+
+
 
 
 
