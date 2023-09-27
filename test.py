@@ -1,6 +1,7 @@
 from Descriptive import DescriptiveStat
 from utils import print_dict
 from DescriptiveBivariate import DescriptiveBivariate
+from DescriptiveBinomialDis import DescriptiveBinomialDis
 
 # Example Usage:
 
@@ -30,6 +31,11 @@ print('regression line formula: ')
 print_dict(regression_line)
 print(f'correlation coeffient: {correlation_coeff}')
 print(f'coefficient_of_determination: {coefficient_of_determination}')
+
+bino = DescriptiveBinomialDis(5, 3, 0.85)
+bi_pro = bino.binomial_probability()
+print(f'the binomial_probability is {bi_pro}')
+
 
 
  
