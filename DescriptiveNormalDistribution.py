@@ -35,8 +35,52 @@ class DescriptiveNormalDistribution:
     
     def z_score_lookup_between(self, bottom, top):
         return self.z_score_lookup_lower(top) - self.z_score_lookup_lower(bottom)
- 
+            
+    def _lower_than_z0(self, value):
+        diff = 1000000
+        tie = False
+        row_i = None
+        col_i = None
+        # loop to get the index of value
+        for i in range(len(self.rows)):
+            for j in range(len(self.cols)):
+                current_diff = value - self.z_df.iloc[i, j]
+                if current_diff == 0:
+                    row_i = i
+                    col_i = j
+                    break
+                elif current_diff < 0:
+                    if abs(current_diff) <= diff:
+                        if abs(current_diff) == diff:
+                            tie = True
+                        row_i = i
+                        col_i = j
+                    else:
+                        if j == 0:
+                            row_i = i-1
+                            col_i = 9
+                        else:
+                            row_i = i-1
+                            col_i = j-1
+                    break
+                else:
+                    diff = current_diff
+            if row_i is not None:
+                break
+        row_v = self.rows[row_i]
+        col_v = self.cols[col_i]
+        print(col_i)
+        v = (row_v + col_v)/100 if value >= 0.5 else (row_v - col_v)/100
+        if tie:
+            v = v - 0.005
+        return v
     
+    def lower_than_z0(self, value):
+        is_negtive = True if value<0.5 else False
+        if is_negtive:
+            return - self._lower_than_z0(1-value)
+        return self._lower_than_z0(value)
+            
             
 
                 
