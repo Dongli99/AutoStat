@@ -2,6 +2,7 @@ from Descriptive import DescriptiveStat
 from utils import print_dict
 from DescriptiveBivariate import DescriptiveBivariate
 from DescriptiveBinomialDis import DescriptiveBinomialDis
+from DescriptiveNormalDistribution import DescriptiveNormalDistribution
 
 # Example Usage:
 
@@ -41,6 +42,12 @@ bi_variance = bino.bino_prob_variance()
 print(f'the probability variance is {bi_variance}')
 bi_probs = bino.bino_prob_sum(2, 15)
 print(f'the probs are {bi_probs}')
+
+nd = DescriptiveNormalDistribution()
+ztest = nd.z_score_lookup_lower(-0.01)
+print(ztest)
+
+
 
 
 
