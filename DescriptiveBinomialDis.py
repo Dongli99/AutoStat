@@ -26,7 +26,7 @@ class DescriptiveBinomialDis:
         probs = 0
         while x <= top:
             self.x = x
-            probs += self.binomial_probability()
+            probs += self.binomial_probability(False)
             x += 1
         if is_rounded:
             probs = round(probs,3)
@@ -56,3 +56,9 @@ class DescriptiveBinomialDis:
         if is_rounded:
             sd = round(sd, 3)
         return sd
+    
+    def expect_success(self, is_rounded = True):
+        ex = self.n * self.p
+        if is_rounded:
+            ex = round(ex, 1)
+        return ex

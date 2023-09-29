@@ -29,3 +29,6 @@ def split_number(num):
         num_left = 0-num_left
     return num_left, num_right
 
+def z_score(x, mean, sd):
+    return round((x - mean) / sd, 2)
+

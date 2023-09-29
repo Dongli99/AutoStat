@@ -25,9 +25,12 @@ class DescriptiveStat(StatisticsSolver):
             weighted_mean = round(weighted_mean, self.decimal_places + 1)
         return weighted_mean
     
-    def z_score(self, x):
+    def _z_score(self, x):
         # z actually is how many sd away from the mean 
         return round((x - self.mean(False))/self.standard_deviation(False), 2)
+    
+    def z_score(self, x, mean, sd):
+        return round((x - mean) / sd, 2)
     
     def percentile_get_p(self, x):
         # percentile is not related to value, only about order/rank
@@ -40,7 +43,7 @@ class DescriptiveStat(StatisticsSolver):
         if position % 1 == 0:
             # plus 0.5 if whole number, equivalent.
             position = round(position)
-            x = (self.data[position - 1] + self.data[position]) / 2
+            x = round((self.data[position - 1] + self.data[position]) / 2, self.decimal_places+1)
         else:
             # round to next higher whole number
             x = self.data[math.ceil(position) - 1]
@@ -53,9 +56,9 @@ class DescriptiveStat(StatisticsSolver):
         q3 = self.percentile_get_x(75)
         iqr = q3 - q1
         semi_iqr = iqr / 2
-        mid_quartile = (q1 + q3) / 2
-        mild_boundary = [q1-(1.5*iqr), q3+(1.5*iqr)]
-        extreme_boundary = [q1-(3*iqr), q3+(3*iqr)]
+        mid_quartile = round((q1 + q3) / 2, self.decimal_places+1)
+        mild_boundary = [round(q1-(1.5*iqr), self.decimal_places+1), round(q3+(1.5*iqr), self.decimal_places+1)]
+        extreme_boundary = [round(q1-(3*iqr), self.decimal_places+1), round(q3+(3*iqr), self.decimal_places+1)]
         outlier_boundary = f'-ex-<<- ({extreme_boundary[0]}) -<-md-<- ({mild_boundary[0]}) --nm-- ({mild_boundary[1]}) ->-md->- ({extreme_boundary[1]}) ->>-ex-'
         tiles = {
             'Q1': q1, 
@@ -69,6 +72,7 @@ class DescriptiveStat(StatisticsSolver):
         return tiles
     
     def a2b_percentile_range(self, a, b):
+        # calculate the range between 2 percentiles
         a, b = (a, b) if a <= b else (b, a)
         pa = self.percentile_get_x(a)
         pb = self.percentile_get_x(b)

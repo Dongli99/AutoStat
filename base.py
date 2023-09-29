@@ -56,3 +56,6 @@ class StatisticsSolver:
         if is_rounded:
             sd = round(sd, self.decimal_places + 1)
         return sd
+    
+    def range(self):
+        return self.data[-1] - self.data[0]
