@@ -47,6 +47,9 @@ nd = DescriptiveNormalDistribution()
 ztest = nd.z_score_lookup_lower(-0.01)
 print(ztest)
 
+find_z0 = nd.lower_than_z0(0.0002)
+print(f'z lower than z0, z0 is {find_z0}')
+
 
 
 
