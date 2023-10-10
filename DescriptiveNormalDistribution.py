@@ -7,8 +7,6 @@ Created on Wed Sep 27 08:52:32 2023
 from utils import split_number
 import pandas as pd
 
-
-
 class DescriptiveNormalDistribution:
     
     def __init__(self):
