@@ -10,6 +10,13 @@ import math
 class DescriptiveBivariate:
     
     def __init__(self, x_list, y_list):
+        """
+        Initialize the DescriptiveBivariate class.
+
+        Parameters:
+        - x_list (list): List of x-values.
+        - y_list (list): List of y-values.
+        """
         self.x_list = x_list
         self.y_list = y_list
         self.x_y_list = [[x, y] for x, y in zip(self.x_list, self.y_list)]
@@ -19,6 +26,12 @@ class DescriptiveBivariate:
         self.sd_y = StatisticsSolver(self.y_list).standard_deviation(False)
         
     def linear_regression(self):
+        """
+        Perform linear regression on the given data.
+
+        Returns:
+        - dict: Dictionary containing slope (m), intercept (b), and the linear regression formula.
+        """
         # will create liniea regression line
         # get m
         sum_x = sum(self.x_list)
@@ -36,6 +49,15 @@ class DescriptiveBivariate:
         return line
     
     def correlation_coefficient(self, is_rounded = True):
+        """
+        Calculate the correlation coefficient (Pearson's r).
+
+        Parameters:
+        - is_rounded (bool): Flag to indicate whether to round the result.
+
+        Returns:
+        - float: Correlation coefficient.
+        """
         # the closer the value to -1 or 1, the stronger the correlation. 0 - no correlation
         sum_x = sum(self.x_list)
         sum_y = sum(self.y_list)
@@ -51,6 +73,15 @@ class DescriptiveBivariate:
         return r
     
     def coefficient_of_determination(self, is_rounded = True):
+        """
+        Calculate the coefficient of determination (r-squared).
+
+        Parameters:
+        - is_rounded (bool): Flag to indicate whether to round the result.
+
+        Returns:
+        - float: Coefficient of determination.
+        """
         # a better measure when we decide about the linearity of a relationship 
         # the proportion of variation in the y values that is explained by x
         cd = self.correlation_coefficient(False)**2

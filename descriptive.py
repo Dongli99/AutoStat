@@ -10,15 +10,40 @@ import math
 class DescriptiveStat(StatisticsSolver): 
 
     def range(self):
+        """
+        Calculate the range of the dataset.
+
+        Returns:
+        - float: Range value.
+        """
         return max(self.data) - min(self.data)
     
     def midrange(self, is_rounded = True):
+        """
+        Calculate the midrange of the dataset.
+
+        Parameters:
+        - is_rounded (bool): Flag to indicate whether to round the result.
+
+        Returns:
+        - float: Midrange value.
+        """
         mr = (max(self.data) + min(self.data))/2
         if is_rounded:
             mr = round(mr, self.decimal_places+1)
         return mr
     
     def weighted_mean(self, weights, is_rounded = True):
+        """
+        Calculate the weighted mean of the dataset.
+
+        Parameters:
+        - weights (list): Weights for each data point.
+        - is_rounded (bool): Flag to indicate whether to round the result.
+
+        Returns:
+        - float: Weighted mean value.
+        """
         weighted_values = [(self.data[i] * weights[i]) for i in range(len(self.data)-1)]
         weighted_mean = sum(weighted_values)/sum(weights)
         if is_rounded:
@@ -26,17 +51,54 @@ class DescriptiveStat(StatisticsSolver):
         return weighted_mean
     
     def _z_score(self, x):
-        # z actually is how many sd away from the mean 
+        """
+        Calculate the z-score of a value.
+
+        Parameters:
+        - x (float): Value for which to calculate the z-score.
+
+        Returns:
+        - float: Z-score value.
+        """
         return round((x - self.mean(False))/self.standard_deviation(False), 2)
     
     def z_score(self, x, mean, sd):
+        """
+        Calculate the z-score of a value using external mean and standard deviation.
+
+        Parameters:
+        - x (float): Value for which to calculate the z-score.
+        - mean (float): Mean of the dataset.
+        - sd (float): Standard deviation of the dataset.
+
+        Returns:
+        - float: Z-score value.
+        """
         return round((x - mean) / sd, 2)
     
     def percentile_get_p(self, x):
+        """
+        Calculate the percentile rank of a value.
+
+        Parameters:
+        - x (float): Value for which to calculate the percentile rank.
+
+        Returns:
+        - float: Percentile rank value.
+        """
         # percentile is not related to value, only about order/rank
         return round((self.data.index(x) + 0.5) * 100 / len(self.data))
     
     def percentile_get_x(self, k):
+        """
+        Calculate the value at a given percentile rank.
+
+        Parameters:
+        - k (float): Percentile rank.
+
+        Returns:
+        - float: Value at the given percentile rank.
+        """
         # given Pk, get x
         # can be performed in R with: quantile(data, probs = 0.4, type = 5)
         position = k * len(self.data) / 100
@@ -50,6 +112,12 @@ class DescriptiveStat(StatisticsSolver):
         return x
     
     def quartile_and_more(self):
+        """
+        Calculate quartiles and related statistics.
+
+        Returns:
+        - dict: Dictionary containing quartile and related statistics.
+        """
         # this function also follows type 5
         q1 = self.percentile_get_x(25)
         q2 = self.percentile_get_x(50)
@@ -72,6 +140,16 @@ class DescriptiveStat(StatisticsSolver):
         return tiles
     
     def a2b_percentile_range(self, a, b):
+        """
+        Calculate the range between two percentiles.
+
+        Parameters:
+        - a (float): Lower percentile.
+        - b (float): Upper percentile.
+
+        Returns:
+        - float: Range between the two percentiles.
+        """
         # calculate the range between 2 percentiles
         a, b = (a, b) if a <= b else (b, a)
         pa = self.percentile_get_x(a)
@@ -79,6 +157,15 @@ class DescriptiveStat(StatisticsSolver):
         return pb - pa
     
     def outlier_check(self, x):
+        """
+        Check if a value is an outlier.
+
+        Parameters:
+        - x (float): Value to check.
+
+        Returns:
+        - str: Outlier status.
+        """
         q1 = self.percentile_get_x(25)
         q3 = self.percentile_get_x(75)
         iqr = q3 - q1

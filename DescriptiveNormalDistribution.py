@@ -10,6 +10,11 @@ import pandas as pd
 class DescriptiveNormalDistribution:
     
     def __init__(self):
+        """
+        Initialize the DescriptiveNormalDistribution class.
+
+        Reads the z-score data from a CSV file and prepares the data frame.
+        """
         # import .csv and prepare data frame.
         self.z_df = pd.read_csv('zscore.csv', index_col=0)
         self.z_df.iloc[0] = self.z_df.iloc[0].fillna(0)
@@ -19,7 +24,15 @@ class DescriptiveNormalDistribution:
         self.cols = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     
     def get_pvalue_zlower(self, num):
+        """
+        Get the p-value for a given z-score (lower tail).
 
+        Parameters:
+        - num (float): Z-score.
+
+        Returns:
+        - float: p-value.
+        """
         # split number into two 
         row_v, col_v = split_number(num)
         row_i = self.rows.index(row_v)
@@ -30,12 +43,40 @@ class DescriptiveNormalDistribution:
         return self.z_df.iloc[row_i, col_i]
     
     def get_pvalue_zgreater(self,num):
+        """
+        Get the p-value for a given z-score (upper tail).
+
+        Parameters:
+        - num (float): Z-score.
+
+        Returns:
+        - float: p-value.
+        """
         return round(1-self.get_pvalue_zlower(num), 4)
     
     def get_pvalue_zbetween(self, bottom, top):
+        """
+        Get the p-value for a range of z-scores [bottom, top].
+
+        Parameters:
+        - bottom (float): Bottom z-score of the range.
+        - top (float): Top z-score of the range.
+
+        Returns:
+        - float: p-value.
+        """
         return round(self.get_pvalue_zlower(top) - self.get_pvalue_zlower(bottom), 4)
             
     def _lower_than_z0(self, value):
+        """
+        Helper function to compute the z-score for a given p-value (lower tail).
+
+        Parameters:
+        - value (float): p-value.
+
+        Returns:
+        - float: z-score.
+        """
         diff = 1000000
         tie = False
         row_i = None
@@ -74,18 +115,16 @@ class DescriptiveNormalDistribution:
         return v
     
     def lower_than_z0(self, value):
+        """
+        Compute the z-score for a given p-value (lower tail).
+
+        Parameters:
+        - value (float): p-value.
+
+        Returns:
+        - float: z-score.
+        """
         is_negtive = True if value<0.5 else False
         if is_negtive:
             return - self._lower_than_z0(1-value)
         return self._lower_than_z0(value)
-            
-
-                
-        
-        
-        
-        
-        
-        
-        
-                  

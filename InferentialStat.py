@@ -12,6 +12,15 @@ from DescriptiveNormalDistribution import DescriptiveNormalDistribution
 class InferentialStat(DescriptiveStat, DescriptiveNormalDistribution):
     
     def init(self, mean, ci, sample_size, is_population):
+        """
+        Initialize the InferentialStat class.
+
+        Parameters:
+        - mean (float): Mean of the data.
+        - ci (float): Confidence interval.
+        - sample_size (int): Sample size.
+        - is_population (bool): Whether the data represents a population or a sample.
+        """
         self.significance = ( 1 - ci )
         self.n = sample_size
         self.ci = ci
@@ -26,6 +35,16 @@ class InferentialStat(DescriptiveStat, DescriptiveNormalDistribution):
             self.margin_error = self.get_margin_error(self.criticle_value, self.n, self.main_s)
     
     def get_t_value(self, n, ci):
+        """
+        Get the t-value for a given sample size and confidence interval.
+
+        Parameters:
+        - n (int): Sample size.
+        - ci (float): Confidence interval.
+
+        Returns:
+        - float: t-value.
+        """
         # read t value table to check the value
         degree_of_freedom = n-1
         df = pd.read_csv('ttable.csv')
@@ -42,11 +61,29 @@ class InferentialStat(DescriptiveStat, DescriptiveNormalDistribution):
         return df.icol[row_index, col_index]
         
     def set_confidence_interval(self, bottom, top):
+        """
+        Set the confidence interval.
+
+        Parameters:
+        - bottom (float): Lower bound of the confidence interval.
+        - top (float): Upper bound of the confidence interval.
+        """
         self.ci_low = bottom
         self.ci_high = top
         
     
     def get_margin_error(self, criticle_value, n, main):
+        """
+        Calculate the margin of error.
+
+        Parameters:
+        - criticle_value (float): Critical value.
+        - n (int): Sample size.
+        - main (float): Mean.
+
+        Returns:
+        - float: Margin of error.
+        """
         return criticle_value * main / math.sqrt(n)
         
     
